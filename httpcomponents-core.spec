@@ -7,7 +7,7 @@
 Name:              %{?scl_prefix}%{pkg_name}
 Summary:           Set of low level Java HTTP transport components for HTTP services
 Version:           4.2.4
-Release:           6.12%{?dist}
+Release:           6.13%{?dist}
 # The project is licensed under ASL 2.0, but it contains annotations
 # in the package org.apache.http.annotation which are derived
 # from JCIP-ANNOTATIONS project (CC-BY licensed)
@@ -17,13 +17,13 @@ Source0:           http://www.apache.org/dist/httpcomponents/httpcore/source/htt
 BuildArch:         noarch
 
 BuildRequires:     %{?scl_prefix_java_common}maven-local
-BuildRequires:     maven30-httpcomponents-project
+BuildRequires:     %{?scl_prefix}httpcomponents-project
 BuildRequires:     %{?scl_prefix_java_common}javapackages-tools
-BuildRequires:     maven30-maven-surefire-provider-junit
+BuildRequires:     %{?scl_prefix}maven-surefire-provider-junit
 BuildRequires:     %{?scl_prefix_java_common}apache-commons-logging
 BuildRequires:     %{?scl_prefix_java_common}junit
 %if 0%{?rhel} <= 0
-BuildRequires:     maven30-mockito
+BuildRequires:     %{?scl_prefix}mockito
 %endif
 
 %description
@@ -48,7 +48,7 @@ Summary:        API documentation for %{pkg_name}
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 
 %pom_remove_plugin :maven-clover2-plugin httpcore-nio
@@ -87,7 +87,7 @@ done
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %mvn_build \
 %if 0%{?rhel}
@@ -97,7 +97,7 @@ set -e -x
 
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %mvn_install
 %{?scl:EOF}
@@ -112,6 +112,9 @@ set -e -x
 %doc LICENSE.txt NOTICE.txt
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 4.2.4-6.13
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 4.2.4-6.12
 - maven33 rebuild
 
