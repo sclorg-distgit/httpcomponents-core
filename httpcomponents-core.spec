@@ -7,7 +7,7 @@
 Name:              %{?scl_prefix}%{pkg_name}
 Summary:           Set of low level Java HTTP transport components for HTTP services
 Version:           4.2.4
-Release:           6.13%{?dist}
+Release:           6.14%{?dist}
 # The project is licensed under ASL 2.0, but it contains annotations
 # in the package org.apache.http.annotation which are derived
 # from JCIP-ANNOTATIONS project (CC-BY licensed)
@@ -16,7 +16,7 @@ URL:               http://hc.apache.org/
 Source0:           http://www.apache.org/dist/httpcomponents/httpcore/source/httpcomponents-core-%{version}-src.tar.gz
 BuildArch:         noarch
 
-BuildRequires:     %{?scl_prefix_java_common}maven-local
+BuildRequires:     %{?scl_prefix}maven-local
 BuildRequires:     %{?scl_prefix}httpcomponents-project
 BuildRequires:     %{?scl_prefix_java_common}javapackages-tools
 BuildRequires:     %{?scl_prefix}maven-surefire-provider-junit
@@ -112,6 +112,9 @@ set -e -x
 %doc LICENSE.txt NOTICE.txt
 
 %changelog
+* Mon Feb 08 2016 Michal Srb <msrb@redhat.com> - 4.2.4-6.14
+- Fix BR on maven-local & co.
+
 * Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 4.2.4-6.13
 - maven33 rebuild #2
 
