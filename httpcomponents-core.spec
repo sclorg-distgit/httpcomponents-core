@@ -8,7 +8,7 @@
 Name:              %{?scl_prefix}httpcomponents-core
 Summary:           Set of low level Java HTTP transport components for HTTP services
 Version:           4.2.4
-Release:           5.2%{?dist}
+Release:           5.4%{?dist}
 Group:             Development/Libraries
 # The project is licensed under ASL 2.0, but it contains annotations
 # in the package org.apache.http.annotation which are derived
@@ -18,13 +18,11 @@ URL:               http://hc.apache.org/
 Source0:           http://www.apache.org/dist/httpcomponents/httpcore/source/httpcomponents-core-%{version}-src.tar.gz
 BuildArch:         noarch
 
-BuildRequires:     maven-local
-BuildRequires:     httpcomponents-project
-BuildRequires:     java >= 1:1.6.0
-BuildRequires:     jpackage-utils
-BuildRequires:     maven-surefire-provider-junit4
-BuildRequires:     apache-commons-logging
-BuildRequires:     junit
+BuildRequires:     maven30-maven-local
+BuildRequires:     maven30-httpcomponents-project
+BuildRequires:     maven30-maven-surefire-provider-junit
+BuildRequires:     maven30-apache-commons-logging
+BuildRequires:     maven30-junit
 %if 0%{?rhel} <= 0
 BuildRequires:     mockito
 %endif
@@ -51,7 +49,7 @@ Group:          Documentation
 
 
 %prep
-%{?scl:scl enable %{scl} - << "EOF"}
+%{?scl:scl enable maven30 %{scl} - << "EOF"}
 %setup -q -n %{pkg_name}-%{version}
 
 %pom_remove_plugin :maven-clover2-plugin httpcore-nio
@@ -88,7 +86,7 @@ done
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable %{scl} - << "EOF"}
+%{?scl:scl enable maven30 %{scl} - << "EOF"}
 %mvn_build \
 %if 0%{?rhel}
     -f
@@ -96,19 +94,26 @@ done
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable %{scl} - << "EOF"}
+%{?scl:scl enable maven30 %{scl} - << "EOF"}
 %mvn_install
+install -d -m 755 %{buildroot}%{_javadir}/httpcomponents
 %{?scl:EOF}
 
 %files -f .mfiles
-%dir %{_javadir}/httpcomponents
 %doc LICENSE.txt NOTICE.txt
 %doc README.txt RELEASE_NOTES.txt
+%dir %{_javadir}/httpcomponents
 
 %files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt NOTICE.txt
 
 %changelog
+* Fri Jun 20 2014 Severin Gehwolf <sgehwolf@redhat.com> - 4.2.4-5.4
+- Own httpcomponents dir.
+
+* Tue Jun 17 2014 Severin Gehwolf <sgehwolf@redhat.com> - 4.2.4-5.3
+- Build against maven30 collection.
+
 * Mon Jan 20 2014 Severin Gehwolf <sgehwolf@redhat.com> - 4.2.4-5.2
 - Rebuild in order to fix osgi()-style provides.
 - Resolves: RHBZ#1054813
